@@ -1,0 +1,812 @@
+{
+	"info": {
+		"_postman_id": "bdf3ac7c-8230-4d29-aa44-2bbf39e7e7d2",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27393645",
+		"_collection_link": "https://warped-moon-834208.postman.co/workspace/c613544d-0f2b-4ef2-983b-5cdef325701c/collection/27393645-bdf3ac7c-8230-4d29-aa44-2bbf39e7e7d2?action=share&source=collection_link&creator=27393645"
+	},
+	"item": [
+		{
+			"name": "Crear tarjetas de un tablero",
+			"item": [
+				{
+					"name": "La lista Backlog",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const json = pm.response.json()\r",
+									"\r",
+									"pm.test(\"la lista deberia tener el nombre BACKLOG\", function () {\r",
+									"    pm.expect(json.name).include(\"BACKLOG\")\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{getList}}/:id?key={{key}}&token={{token}}",
+							"host": [
+								"{{getList}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{ListA}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "La lista Active",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const json = pm.response.json()\r",
+									"\r",
+									"pm.test(\"la lista deberia tener el nombre ACTIVE\", function () {\r",
+									"    pm.expect(json.name).include(\"ACTIVE\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{getList}}/:id?key={{key}}&token={{token}}",
+							"host": [
+								"{{getList}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{listB}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "La lista Done",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const json = pm.response.json()\r",
+									"\r",
+									"pm.test(\"la lista deberia tener el nombre DONE\", function () {\r",
+									"    pm.expect(json.name).include(\"DONE\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{getList}}/:id?key={{key}}&token={{token}}",
+							"host": [
+								"{{getList}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{listC}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validar crear Card A",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"validar que la card sea creada en BACKLOG\", ()=>{\r",
+									"    pm.expect(json.idList).eq(pm.environment.get(\"ListA\"))\r",
+									"})\r",
+									"\r",
+									"pm.test(\"validacion que el nombre de la CARD sea el valor ingresado anteriormente\",()=>\r",
+									"    pm.expect(json.name).eq(pm.collectionVariables.get(\"CVrandomNameCard\"))\r",
+									")\r",
+									" \r",
+									"\r",
+									"//capturando el id de la carta creada\r",
+									"const idCardA = json.id\r",
+									"pm.collectionVariables.set(\"CVidCardA\", idCardA)\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomName = pm.variables.replaceIn(\"{{$randomUserName}}\")\r",
+									"\r",
+									"pm.collectionVariables.set(\"CVrandomNameCard\", randomName)\r",
+									"\r",
+									"\r",
+									"//pm.variables.get(\"$randomUserName\") "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{postCard}}?idList={{ListA}}&name={{CVrandomNameCard}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{postCard}}"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "{{ListA}}"
+								},
+								{
+									"key": "name",
+									"value": "{{CVrandomNameCard}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validar crear Card B",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomName = pm.variables.replaceIn(\"{{$randomUserName}}\")\r",
+									"\r",
+									"pm.collectionVariables.set(\"CVrandomNameCard\", randomName)\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const json = pm.response.json()\r",
+									"\r",
+									"pm.test(\"validar que la card sea creada en TO DO\", ()=>{\r",
+									"    pm.expect(json.idList).eq(pm.environment.get(\"listB\"))\r",
+									"})\r",
+									"\r",
+									"pm.test(\"validacion que el nombre de la CARD sea el valor ingresado anteriormente\",()=>\r",
+									"    pm.expect(json.name).eq(pm.collectionVariables.get(\"CVrandomNameCard\"))\r",
+									")\r",
+									"\r",
+									"//capturando el id de la carta creada\r",
+									"const idCardB = json.id\r",
+									"pm.collectionVariables.set(\"CVidCardB\", idCardB)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{postCard}}?idList={{listB}}&name={{CVrandomNameCard}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{postCard}}"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "{{listB}}"
+								},
+								{
+									"key": "name",
+									"value": "{{CVrandomNameCard}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Modificar tarjetas de un tablero",
+			"item": [
+				{
+					"name": "Validacion de valores de una tarjeta",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json()\r",
+									"const randomName = pm.collectionVariables.get(\"CVrandomNameCard\")\r",
+									"const randomDesc = pm.collectionVariables.get(\"CVrandomDescCard\")\r",
+									"\r",
+									"\r",
+									"pm.test(\"nombre de la carta deberia ser modificado\",()=>\r",
+									"    pm.expect(json.name).eq(randomName)\r",
+									")\r",
+									"\r",
+									"pm.test(\"desc de la carta deberia ser modificado\",()=>\r",
+									"    pm.expect(json.desc).eq(randomDesc)\r",
+									")\r",
+									"\r",
+									"\r",
+									"const idLabel = pm.environment.get(\"labelMod\") //capturando el id de la etiqueda VIP\r",
+									"const LabelNew = json.labels[0].id             //capturando el id la carta (labelmod)\r",
+									"\r",
+									"pm.test(\"card deberia tener la etiqueta mod\",()=>\r",
+									"    pm.expect(LabelNew).eq(idLabel)\r",
+									")\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const newrandomName = pm.variables.replaceIn(\"{{$randomUserName}}\")\r",
+									"pm.collectionVariables.set(\"CVrandomNameCard\", newrandomName)\r",
+									"\r",
+									"const newrandomDesc = pm.variables.replaceIn(\"{{$randomLoremWord}}\")\r",
+									"pm.collectionVariables.set(\"CVrandomDescCard\", newrandomDesc)\r",
+									"\r",
+									"\r",
+									"//pm.variables.get(\"$randomLoremWord\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{putCard}}/:id?key={{key}}&token={{token}}&name={{CVrandomNameCard}}&desc={{CVrandomDescCard}}&idLabels={{labelMod}}",
+							"host": [
+								"{{putCard}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "pos",
+									"value": "top",
+									"disabled": true
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "name",
+									"value": "{{CVrandomNameCard}}"
+								},
+								{
+									"key": "desc",
+									"value": "{{CVrandomDescCard}}"
+								},
+								{
+									"key": "idLabels",
+									"value": "{{labelMod}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{CVidCardA}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mover tarjetas de un tablero",
+			"item": [
+				{
+					"name": "Validar mover la Tarjeta A a la siguiente Lista ACTIVE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json()\r",
+									"const idListaB = pm.environment.get(\"listB\")\r",
+									"\r",
+									"pm.test(\"card deberia tener id de la Lista B\", ()=>\r",
+									"    pm.expect(json.idList).eq(idListaB)\r",
+									")\r",
+									"\r",
+									"\r",
+									"const idLabel = pm.environment.get(\"labelVIP\") //capturando el id de la etiqueda VIP\r",
+									"const LabelNew = json.labels[0].id             //capturando el id la carta (labelmod)\r",
+									"\r",
+									"pm.test(\"card deberia tener la etiqueta VIP\",()=>\r",
+									"    pm.expect(LabelNew).eq(idLabel)\r",
+									")\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{putCard}}/:id?idList={{listB}}&key={{key}}&token={{token}}&idLabels={{labelVIP}}",
+							"host": [
+								"{{putCard}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "{{listB}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "idLabels",
+									"value": "{{labelVIP}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{CVidCardA}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validar mover la Tarjeta A a la siguiente Lista DONE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json()\r",
+									"const idListaC = pm.environment.get(\"listC\")\r",
+									"\r",
+									"pm.test(\"askjdnaskjdnajk \", ()=>\r",
+									"    pm.expect(json.idList).eq(idListaC)\r",
+									")\r",
+									"\r",
+									"\r",
+									"const idLabel = pm.environment.get(\"labelVIP\") //capturando el id de la etiqueda VIP\r",
+									"const LabelNew = json.labels[0].id             //capturando el id la carta (labelmod)\r",
+									"\r",
+									"pm.test(\"card deberia tener la etiqueta VIP\",()=>\r",
+									"    pm.expect(LabelNew).eq(idLabel)\r",
+									")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{putCard}}/:id?idList={{listC}}&key={{key}}&token={{token}}&idLabels={{labelVIP}}",
+							"host": [
+								"{{putCard}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "{{listC}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "idLabels",
+									"value": "{{labelVIP}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{CVidCardA}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Remover tarjetas de un tablero",
+			"item": [
+				{
+					"name": "Precon. CARD No debe estar archivada",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Card NO debería estar archivada\",()=>\r",
+									"     pm.expect(json.closed).to.be.false\r",
+									")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{getCard}}/:id?key={{key}}&token={{token}}",
+							"host": [
+								"{{getCard}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{CVidCardB}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validar archivar card A",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Card B debería estar archivada\",()=>\r",
+									"     pm.expect(json.closed).to.be.true\r",
+									")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{putCard}}/:id?key={{key}}&token={{token}}&closed=true",
+							"host": [
+								"{{putCard}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "closed",
+									"value": "true"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{CVidCardB}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validar dejar de archivar card A cuando estaba archivada",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json()\r",
+									"\r",
+									"pm.test(\"carta B deberia de estar archivada\",()=>\r",
+									"     pm.expect(json.closed).to.be.false\r",
+									")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{putCard}}/:id?key={{key}}&token={{token}}&closed=false",
+							"host": [
+								"{{putCard}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "closed",
+									"value": "false"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{CVidCardB}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validar Eliminar card A",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"CARD B deberia estar archivada\",()=>\r",
+									"     pm.response.to.have.status(200)\r",
+									")\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{delCard}}/:id?key={{key}}&token={{token}}",
+							"host": [
+								"{{delCard}}"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{CVidCardB}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "CVrandomNameCard",
+			"value": ""
+		},
+		{
+			"key": "CVrandomDescCard",
+			"value": ""
+		},
+		{
+			"key": "CVidCardA",
+			"value": ""
+		},
+		{
+			"key": "CVidCardB",
+			"value": ""
+		}
+	]
+}
